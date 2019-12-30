@@ -26,6 +26,8 @@ public class CountryItemPricingManagement_UpdateCountryItemPricingServlet extend
               response.sendRedirect("CountryItemPricingManagement_Servlet?errMsg=Price should be between 0 and 99999, please try again.");
             }
             else {
+                //make sure 1 decimal place                
+                price = String.valueOf(Math.round(Double.parseDouble(price)*10)/10.0);
             ReturnHelper helper = itemManagementBean.editCountryItemPricing(Long.parseLong(id), Double.parseDouble(price));
 
             response.sendRedirect("CountryItemPricingManagement_Servlet?errMsg=" + helper.getMessage());

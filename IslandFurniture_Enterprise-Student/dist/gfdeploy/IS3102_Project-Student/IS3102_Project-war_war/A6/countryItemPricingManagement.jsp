@@ -23,7 +23,8 @@
             }
             function update(id) {
                 itemPricingManagement.id.value = id;
-                itemPricingManagement.setPrice.value = parseInt($("#price" + id).val());
+                //make sure there is only one decimal place. convert to float instead of int
+                itemPricingManagement.setPrice.value =parseFloat($("#price" + id).val()).toFixed(1);
                 document.itemPricingManagement.action = "../CountryItemPricingManagement_UpdateCountryItemPricingServlet";
                 document.itemPricingManagement.submit();
             }

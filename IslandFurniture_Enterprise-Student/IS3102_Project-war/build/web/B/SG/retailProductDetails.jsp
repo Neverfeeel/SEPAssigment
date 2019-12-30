@@ -8,10 +8,22 @@
 <jsp:include page="checkCountry.jsp" />
 <%
     String sku = request.getParameter("sku");
+    
+    //get category from previous page
+    String category =request.getParameter("category");
     if (sku == null) {
 %>
 <jsp:forward page="index.jsp" />
 <%
+    }
+    Boolean isMemberLoggedIn = false;
+
+    //check whether the user is logged in
+    String memberEmail = (String) (session.getAttribute("memberEmail"));
+    if (memberEmail == null) {
+        isMemberLoggedIn = false;
+    } else {
+        isMemberLoggedIn = true;
     }
 %>
 <html> <!--<![endif]-->
@@ -21,7 +33,13 @@
             List<RetailProduct> retailProducts = (List<RetailProduct>) (session.getAttribute("retailProducts"));
             RetailProduct retailProduct = new RetailProduct();
             List<StoreEntity> storesInCountry = (List<StoreEntity>) session.getAttribute("storesInCountry");
-            /*insert code here*/
+            //find every retail 
+            session.getAttribute("storesInCountry");
+            for(RetailProduct rt : retailProducts){
+                if(rt.getSKU().equals(sku)){
+                    retailProduct = rt;
+                }
+            }
         %>
         <div class="body">
             <jsp:include page="menu2.jsp" />
@@ -42,22 +60,22 @@
                             <div class="col-md-6">
                                 <div>
                                     <div class="thumbnail">
-                                        <img alt="" class="img-responsive img-rounded" src="../../..<%/*insert imageURL*/%>">
+                                        <img alt="" class="img-responsive img-rounded" src="../../..<%=retailProduct.getImageUrl()%>">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="summary entry-summary">
-                                    <h2 class="shorter"><strong>Insert product name here</strong></h2>
+                                    <h2 class="shorter"><strong><%=retailProduct.getName()%></strong></h2>
 
-                                    <p class="price"><h4 class="amount"><%/*insert code here*/%></h4></p>
+                                    <p class="price"><h4 class="amount">$<%=retailProduct.getPrice()%>0</h4></p>
                                     <strong>Description</strong>
                                     <p class="taller">
-                                        <%/*insert code here*/%>
+                                        <%=retailProduct.getDescription()%>
                                     </p>
                                     <div class="product_meta">
-                                        <span class="posted_in">Category: <a rel="tag" href="#"><%/*insert code here*/%></a></span>
+                                        <span class="posted_in">Category: <a rel="tag" href="#"><%=retailProduct.getCategory()%></a></span>
                                     </div>
                                     <br/><br/>
 
